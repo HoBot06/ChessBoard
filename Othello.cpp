@@ -24,25 +24,41 @@ void Othello::setupBoard() {
 	Board[4][4] = new O_Piece(s_Black);
 }
 
-bool Othello::currentSel(std::string turn, std::string loc) {
+void Othello::placePiece(std::string loc) {
 	int* loc_ = returnLoc_int(loc);
-	int x = loc_[0];
-	int y = loc_[1];
-	Piece* piece = getPiece(x, y);
-	if (piece->type == NULL_) return false;
-	if (piece->color != turn) return false;
-	return true;
-};
+	int x = loc_[0] - 1;
+	int y = loc_[1] - 1;
+	Board[x][y] = new O_Piece(p_turn);
+
+	int dx[8] = { -1, 1, 0, 0, -1, -1, 1, 1 };
+	int dy[8] = { 0, 0, -1, 1, -1, 1, -1, 1 };
+
+	for (int d = 0; d < 8; d++) {
+		std::vector<std::pair<int, int>> toFlip;
+		int nx = x + dx[d];
+		int ny = y + dy[d];
+
+		while (nx >= 0 && nx < 8 && ny >= 0 && ny < 8 && Board[nx][ny]->type != NULL_ && Board[nx][ny]->color != p_turn) {
+			toFlip.emplace_back(nx, ny);
+			nx += dx[d];
+			ny += dy[d];
+		}
+
+		if (nx >= 0 && nx < 8 && ny >= 0 && ny < 8 && Board[nx][ny]->type != NULL_ && Board[nx][ny]->color == p_turn) {
+			for (auto& pos : toFlip) {
+				int fx = pos.first;
+				int fy = pos.second;
+				Board[fx][fy]=new O_Piece(p_turn);
+			}
+		}
+	}
+}
 
 bool Othello::currentSel(std::string loc) {
 	int* loc_ = returnLoc_int(loc);
-	int x = loc_[0];
-	int y = loc_[1];
-	Piece* piece = getPiece(x, y);
-	if (sel_Piece->canMove(Board, sel_Loc[0] - 1, sel_Loc[1] - 1, x - 1, y - 1)) {
-		return true;
-	}
-	return false;
+	int x = loc_[0] - 1;
+	int y = loc_[1] - 1;
+	return othelloPlace(x, y);
 };
 
 void Othello::changeturn() {
@@ -51,16 +67,20 @@ void Othello::changeturn() {
 }
 
 bool Othello::isEnd() {
-	int count = 0;
+	int w_count = 0;
+	int b_count = 0;
 	for (int y = 0; y < 8; y++) {
 		for (int x = 0; x < 8; x++) {
-			if (Board[x][y]->type == s_King) {
-				count++;
+			if (Board[x][y]->color == s_White) {
+				w_count++;
+			}
+			if (Board[x][y]->color == s_Black) {
+				b_count++;
 			}
 		}
 	}
-	if (count >= 2) {
-		return false;
+	if (w_count ==0||b_count ==0) {
+		return true;
 	}
-	return true;
+	return false;
 }

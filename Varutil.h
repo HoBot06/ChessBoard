@@ -14,6 +14,7 @@ namespace Varutil {
 	const std::string s_King = "K";
 	const std::string s_Checker = "C";
 	const std::string s_Checker_King = "CK";
+	const std::string s_Othello = "O";
 
 	//color=foreground+background*16
 	const int BLACK = 0;

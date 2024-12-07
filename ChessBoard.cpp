@@ -24,38 +24,58 @@ ChessBoard::ChessBoard(const ChessBoard& other) {
 	}
 }
 
-void ChessBoard::showBoard() {
+void ChessBoard::showBoard(int menu) {
 	system("cls");
 	UINT uint = GetConsoleOutputCP();
 	SetConsoleOutputCP(CP_UTF8);
-	std::cout << "   A   B   C   D   E   F   G   H" << std::endl;
-	for (int y = 0; y < 8; y++) {
-		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), WHITE);
-		std::cout << y + 1;
-		for (int x = 0; x < 8; x++) {
-			if (sel_Loc[0] != 0 && sel_Loc[1] != 0) {
-				if (x == sel_Loc[0] - 1 && y == sel_Loc[1] - 1) {
-					SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 0 + LIGHTGREEN * 16);
+	if (menu == 1 || menu == 2) {
+		std::cout << "   A   B   C   D   E   F   G   H" << std::endl;
+		for (int y = 0; y < 8; y++) {
+			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), WHITE);
+			std::cout << y + 1;
+			for (int x = 0; x < 8; x++) {
+				if (sel_Loc[0] != 0 && sel_Loc[1] != 0) {
+					SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), WHITE * 16);
+					if (Board[sel_Loc[0] - 1][sel_Loc[1] - 1]->canMove(Board, sel_Loc[0] - 1, sel_Loc[1] - 1, x, y)) {
+						SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 0 + YELLOW * 16);
+					}
 				}
 				else {
 					SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), WHITE * 16);
 				}
-				if (Board[sel_Loc[0] - 1][sel_Loc[1] - 1]->canMove(Board, sel_Loc[0] - 1, sel_Loc[1] - 1, x, y)) {
-					SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 0 + YELLOW * 16);
+				if (Board[x][y]->color != NULL_ && Board[x][y]->type != NULL_) {
+					std::cout << "[" << Board[x][y]->image << " ]";
+				}
+
+				else {
+					std::cout << "[  ]";
 				}
 			}
-			else {
-				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), WHITE * 16);
-			}
-			if (Board[x][y]->color != NULL_ && Board[x][y]->type != NULL_) {
-				std::cout << "[" << Board[x][y]->image << " ]";
-			}
-
-			else {
-				std::cout << "[  ]";
-			}
+			std::cout << std::endl;
 		}
-		std::cout << std::endl;
+	}
+	else if (menu == 3) {
+		std::cout << "   A   B   C   D   E   F   G   H" << std::endl;
+		for (int y = 0; y < 8; y++) {
+			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), WHITE);
+			std::cout << y + 1;
+			for (int x = 0; x < 8; x++) {
+				if (othelloPlace(x, y)) {
+					SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 0 + YELLOW * 16);
+				}
+				else {
+					SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), WHITE * 16);
+				}
+				if (Board[x][y]->color != NULL_ && Board[x][y]->type != NULL_) {
+					std::cout << "[" << Board[x][y]->image << " ]";
+				}
+
+				else {
+					std::cout << "[  ]";
+				}
+			}
+			std::cout << std::endl;
+		}
 	}
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), WHITE);
 	SetConsoleOutputCP(uint);
