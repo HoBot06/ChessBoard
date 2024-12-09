@@ -56,9 +56,11 @@ void Othello::placePiece(std::string loc) {
 
 bool Othello::currentSel(std::string loc) {
 	int* loc_ = returnLoc_int(loc);
-	int x = loc_[0] - 1;
-	int y = loc_[1] - 1;
-	return othelloPlace(x, y);
+	if (loc_ == nullptr) return false;
+	int x = loc_[0];
+	int y = loc_[1];
+	if (x <= 0 || x > 8 || y > 8 || y <= 0) return false;
+	return othelloPlace(x-1, y-1);
 };
 
 void Othello::changeturn() {

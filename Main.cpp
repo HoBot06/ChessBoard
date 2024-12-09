@@ -19,7 +19,7 @@ int main() {
 		chess.showBoard(menu_c);
 		string loc;
 		while (1) {
-			std::string turn;
+			string turn;
 			if (chess.p_turn == s_White) {
 				turn = "백";
 			}

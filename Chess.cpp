@@ -52,8 +52,10 @@ void Chess::setupBoard() {
 
 bool Chess::currentSel(std::string turn, std::string loc) {
 	int* loc_ = returnLoc_int(loc);
+	if (loc_ == nullptr) return false;
 	int x = loc_[0];
 	int y = loc_[1];
+	if (x <= 0 || x > 8 || y > 8 || y <= 0) return false;
 	Piece* piece = getPiece(x, y);
 	if (piece->type == NULL_) return false;
 	if (piece->color != turn) return false;
@@ -62,8 +64,10 @@ bool Chess::currentSel(std::string turn, std::string loc) {
 
 bool Chess::currentSel(std::string loc) {
 	int* loc_ = returnLoc_int(loc);
+	if (loc_ == nullptr) return false;
 	int x = loc_[0];
 	int y = loc_[1];
+	if (x <= 0 || x > 8 || y > 8 || y <= 0) return false;
 	Piece* piece = getPiece(x, y);
 	if (sel_Piece->canMove(Board, sel_Loc[0] - 1, sel_Loc[1] - 1, x-1, y-1)) {
 		return true;

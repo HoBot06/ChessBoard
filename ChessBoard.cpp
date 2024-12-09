@@ -112,19 +112,24 @@ Piece* ChessBoard::getPiece(int x, int y) {
 void ChessBoard::movePiece(std::string loc) {};
 
 int* ChessBoard::returnLoc_int(std::string loc) {
-	std::string x_loc = loc.substr(0, 1);
-	std::string y_loc = loc.substr(1, 2);
-	int loc_[2] = {0, 0};
-	if (x_loc == "A") loc_[0] = 1;
-	else if (x_loc == "B") loc_[0] = 2;
-	else if (x_loc == "C") loc_[0] = 3;
-	else if (x_loc == "D") loc_[0] = 4;
-	else if (x_loc == "E") loc_[0] = 5;
-	else if (x_loc == "F") loc_[0] = 6;
-	else if (x_loc == "G") loc_[0] = 7;
-	else if (x_loc == "H") loc_[0] = 8;
+	try {
+		std::string x_loc = loc.substr(0, 1);
+		std::string y_loc = loc.substr(1, 2);
+		int loc_[2] = { 0, 0 };
+		if (x_loc == "A") loc_[0] = 1;
+		else if (x_loc == "B") loc_[0] = 2;
+		else if (x_loc == "C") loc_[0] = 3;
+		else if (x_loc == "D") loc_[0] = 4;
+		else if (x_loc == "E") loc_[0] = 5;
+		else if (x_loc == "F") loc_[0] = 6;
+		else if (x_loc == "G") loc_[0] = 7;
+		else if (x_loc == "H") loc_[0] = 8;
 
-	loc_[1] = std::stoi(y_loc);
+		loc_[1] = std::stoi(y_loc);
 
-	return loc_;
+		return loc_;
+	}
+	catch (...) {
+		return 0;
+	}
 }
