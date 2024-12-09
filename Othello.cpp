@@ -71,6 +71,7 @@ void Othello::changeturn() {
 bool Othello::isEnd() {
 	int w_count = 0;
 	int b_count = 0;
+	int blank = 0;
 	for (int y = 0; y < 8; y++) {
 		for (int x = 0; x < 8; x++) {
 			if (Board[x][y]->color == s_White) {
@@ -79,7 +80,13 @@ bool Othello::isEnd() {
 			if (Board[x][y]->color == s_Black) {
 				b_count++;
 			}
+			if (Board[x][y]->type == NULL_) {
+				blank++;
+			}
 		}
+	}
+	if (blank == 0) {
+		return true;
 	}
 	if (w_count ==0||b_count ==0) {
 		return true;
