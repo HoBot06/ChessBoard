@@ -43,6 +43,9 @@ void ChessBoard::showBoard(int menu) {
 				else {
 					SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), WHITE * 16);
 				}
+				if (sel_Loc[0] - 1 == x && sel_Loc[1] - 1 == y) {
+					SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), LIGHTGREEN * 16);
+				}
 				if (Board[x][y]->color != NULL_ && Board[x][y]->type != NULL_) {
 					std::cout << "[" << Board[x][y]->image << " ]";
 				}
